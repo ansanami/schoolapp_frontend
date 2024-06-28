@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 // material-ui
 import Button from '@mui/material/Button';
@@ -18,7 +18,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 // third party
-import * as Yup from 'yup';
 import { Formik } from 'formik';
 
 // project import
@@ -27,14 +26,14 @@ import AnimateButton from 'components/@extended/AnimateButton';
 // assets
 import EyeOutlined from '@ant-design/icons/EyeOutlined';
 import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
-import FirebaseSocial from './FirebaseSocial';
 
 // ============================|| JWT - LOGIN ||============================ //
 
 export default function AuthLogin({ isDemo = false }) {
   const [checked, setChecked] = React.useState(false);
-
   const [showPassword, setShowPassword] = React.useState(false);
+  const navigate = useNavigate();
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -43,40 +42,75 @@ export default function AuthLogin({ isDemo = false }) {
     event.preventDefault();
   };
 
+  const handleSubmit = async (values, { setErrors, setStatus, setSubmitting }) => {
+    try {
+      const response = await fetch('http://localhost:8080/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          tckn: values.tckn,
+          password: values.password
+        })
+      });
+  
+      const data = await response.json(); // Başarılı olmayan durumlarda bile JSON cevabı alabilirsiniz
+  
+      if (!response.ok) {
+        throw new Error(data.message || 'Network response was not ok');
+      }
+  
+      // Handle successful response
+      console.log('Login successful', data);
+      localStorage.setItem('token', values.tckn);
+      console.log(localStorage.getItem('token'));
+      setStatus({ success: true });
+      setSubmitting(false);
+      navigate('/dashboard/default'); // Redirect to the dashboard
+    } catch (error) {
+      console.error('Error during login:', error);
+      setStatus({ success: false });
+      setErrors({ submit: error.message });
+      setSubmitting(false);
+    }
+  };
+
   return (
     <>
       <Formik
         initialValues={{
-          email: '',
+          tckn: '',
           password: '',
           submit: null
         }}
-        validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
-        })}
+        //validationSchema={Yup.object().shape({
+          //email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          //password: Yup.string().max(255).required('Password is required')
+       // })}
+        onSubmit={handleSubmit}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="email-login">Email Address</InputLabel>
+                  <InputLabel htmlFor="email-login">TCKN</InputLabel>
                   <OutlinedInput
                     id="email-login"
-                    type="email"
-                    value={values.email}
-                    name="email"
+                    type="tckn"
+                    value={values.tckn}
+                    name="tckn"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="Enter email address"
+                    placeholder="Tckn giriniz..."
                     fullWidth
                     error={Boolean(touched.email && errors.email)}
                   />
                 </Stack>
-                {touched.email && errors.email && (
+                {touched.tckn && errors.tckn && (
                   <FormHelperText error id="standard-weight-helper-text-email-login">
-                    {errors.email}
+                    {errors.tckn}
                   </FormHelperText>
                 )}
               </Grid>
@@ -145,14 +179,6 @@ export default function AuthLogin({ isDemo = false }) {
                     Login
                   </Button>
                 </AnimateButton>
-              </Grid>
-              <Grid item xs={12}>
-                <Divider>
-                  <Typography variant="caption"> Login with</Typography>
-                </Divider>
-              </Grid>
-              <Grid item xs={12}>
-                <FirebaseSocial />
               </Grid>
             </Grid>
           </form>
