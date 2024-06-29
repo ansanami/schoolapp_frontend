@@ -1463,6 +1463,13 @@
   resolved "https://registry.npmjs.org/@mui/core-downloads-tracker/-/core-downloads-tracker-5.15.16.tgz"
   integrity sha512-PTIbMJs5C/vYMfyJNW8ArOezh4eyHkg2pTeA7bBxh2kLP1Uzs0Nm+krXWbWGJPwTWjM8EhnDrr4aCF26+2oleg==
 
+"@mui/icons-material@^5.15.21":
+  version "5.15.21"
+  resolved "https://registry.npmjs.org/@mui/icons-material/-/icons-material-5.15.21.tgz"
+  integrity sha512-yqkq1MbdkmX5ZHyvZTBuAaA6RkvoqkoAgwBSx9Oh0L0jAfj9T/Ih/NhMNjkl8PWVSonjfDUkKroBnjRyo/1M9Q==
+  dependencies:
+    "@babel/runtime" "^7.23.9"
+
 "@mui/lab@^5.0.0-alpha.167":
   version "5.0.0-alpha.170"
   resolved "https://registry.npmjs.org/@mui/lab/-/lab-5.0.0-alpha.170.tgz"
@@ -1476,7 +1483,7 @@
     clsx "^2.1.0"
     prop-types "^15.8.1"
 
-"@mui/material@^5.15.12", "@mui/material@>=5.15.0":
+"@mui/material@^5.0.0", "@mui/material@^5.15.12", "@mui/material@>=5.15.0":
   version "5.15.16"
   resolved "https://registry.npmjs.org/@mui/material/-/material-5.15.16.tgz"
   integrity sha512-ery2hFReewko9gpDBqOr2VmXwQG9ifXofPhGzIx09/b9JqCQC/06kZXZDGGrOTpIddK9HlIf4yrS+G70jPAzUQ==
