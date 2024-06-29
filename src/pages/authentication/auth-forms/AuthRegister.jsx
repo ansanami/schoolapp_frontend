@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import axios from 'axios';
 
 // material-ui
 import Button from '@mui/material/Button';
@@ -27,11 +28,18 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import EyeOutlined from '@ant-design/icons/EyeOutlined';
 import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 
-// ============================|| JWT - REGISTER ||============================ //
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required('Name is required'),
+  surname: Yup.string().required('Surname is required'),
+  mail: Yup.string().email('Invalid email').required('Email is required'),
+  tckn: Yup.string().length(11, 'TCKN must be 11 digits').required('TCKN is required'),
+  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required')
+});
 
 export default function AuthRegister() {
   const [level, setLevel] = useState();
   const [showPassword, setShowPassword] = useState(false);
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -49,110 +57,126 @@ export default function AuthRegister() {
     changePassword('');
   }, []);
 
+  const handleSubmit = async (values, { setErrors, setSubmitting, setStatus }) => {
+    try {
+      const response = await axios.post('http://localhost:8080/users', {
+        name: values.name,
+        surname: values.surname,
+        mail: values.mail,
+        password: values.password,
+        tckn: values.tckn,
+        students: []
+      });
+      if (response.status === 201) {
+        setStatus({ success: true });
+      }
+    } catch (error) {
+      setErrors({ submit: error.message });
+      setStatus({ success: false });
+    }
+    setSubmitting(false);
+  };
+
   return (
     <>
       <Formik
         initialValues={{
-          firstname: '',
-          lastname: '',
-          email: '',
-          company: '',
+          name: '',
+          surname: '',
+          mail: '',
+          tckn: '',
           password: '',
           submit: null
         }}
-        validationSchema={Yup.object().shape({
-          firstname: Yup.string().max(255).required('First Name is required'),
-          lastname: Yup.string().max(255).required('Last Name is required'),
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
-        })}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="firstname-signup">First Name*</InputLabel>
+                  <InputLabel htmlFor="name-signup">Ad</InputLabel>
                   <OutlinedInput
-                    id="firstname-login"
-                    type="firstname"
-                    value={values.firstname}
-                    name="firstname"
+                    id="name-signup"
+                    type="text"
+                    value={values.name}
+                    name="name"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="John"
                     fullWidth
-                    error={Boolean(touched.firstname && errors.firstname)}
+                    error={Boolean(touched.name && errors.name)}
                   />
                 </Stack>
-                {touched.firstname && errors.firstname && (
-                  <FormHelperText error id="helper-text-firstname-signup">
-                    {errors.firstname}
+                {touched.name && errors.name && (
+                  <FormHelperText error id="helper-text-name-signup">
+                    {errors.name}
                   </FormHelperText>
                 )}
               </Grid>
               <Grid item xs={12} md={6}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="lastname-signup">Last Name*</InputLabel>
+                  <InputLabel htmlFor="surname-signup">SoyAd</InputLabel>
                   <OutlinedInput
                     fullWidth
-                    error={Boolean(touched.lastname && errors.lastname)}
-                    id="lastname-signup"
-                    type="lastname"
-                    value={values.lastname}
-                    name="lastname"
+                    error={Boolean(touched.surname && errors.surname)}
+                    id="surname-signup"
+                    type="text"
+                    value={values.surname}
+                    name="surname"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="Doe"
                     inputProps={{}}
                   />
                 </Stack>
-                {touched.lastname && errors.lastname && (
-                  <FormHelperText error id="helper-text-lastname-signup">
-                    {errors.lastname}
+                {touched.surname && errors.surname && (
+                  <FormHelperText error id="helper-text-surname-signup">
+                    {errors.surname}
                   </FormHelperText>
                 )}
               </Grid>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="company-signup">Company</InputLabel>
+                  <InputLabel htmlFor="tckn-signup">TCKN</InputLabel>
                   <OutlinedInput
                     fullWidth
-                    error={Boolean(touched.company && errors.company)}
-                    id="company-signup"
-                    value={values.company}
-                    name="company"
+                    error={Boolean(touched.tckn && errors.tckn)}
+                    id="tckn-signup"
+                    value={values.tckn}
+                    name="tckn"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="Demo Inc."
+                    placeholder="12345678901"
                     inputProps={{}}
                   />
                 </Stack>
-                {touched.company && errors.company && (
-                  <FormHelperText error id="helper-text-company-signup">
-                    {errors.company}
+                {touched.tckn && errors.tckn && (
+                  <FormHelperText error id="helper-text-tckn-signup">
+                    {errors.tckn}
                   </FormHelperText>
                 )}
               </Grid>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="email-signup">Email Address*</InputLabel>
+                  <InputLabel htmlFor="mail-signup">Mail Adresi</InputLabel>
                   <OutlinedInput
                     fullWidth
-                    error={Boolean(touched.email && errors.email)}
-                    id="email-login"
+                    error={Boolean(touched.mail && errors.mail)}
+                    id="mail-signup"
                     type="email"
-                    value={values.email}
-                    name="email"
+                    value={values.mail}
+                    name="mail"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="demo@company.com"
                     inputProps={{}}
                   />
                 </Stack>
-                {touched.email && errors.email && (
-                  <FormHelperText error id="helper-text-email-signup">
-                    {errors.email}
+                {touched.mail && errors.mail && (
+                  <FormHelperText error id="helper-text-mail-signup">
+                    {errors.mail}
                   </FormHelperText>
                 )}
               </Grid>
