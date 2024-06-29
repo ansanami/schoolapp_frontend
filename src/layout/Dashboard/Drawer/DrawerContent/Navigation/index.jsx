@@ -47,12 +47,6 @@ const Navigation = () => (
       </ListItemIcon>
       <ListItemText primary="Biletlerim" />
     </ListItem>
-    <ListItem button component={Link} to="/sample-page">
-      <ListItemIcon>
-        <SampleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Bilet Listesi" />
-    </ListItem>
   </List>
 );
 
