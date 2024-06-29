@@ -53,6 +53,12 @@ const Navigation = () => (
       </ListItemIcon>
       <ListItemText primary="Bilet Listesi" />
     </ListItem>
+    <ListItem button component={Link} to="/profil-page">
+      <ListItemIcon>
+        <SampleIcon />
+      </ListItemIcon>
+      <ListItemText primary="Profilim" />
+    </ListItem>
   </List>
 );
 

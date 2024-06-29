@@ -17,6 +17,7 @@ const SamplePage = Loadable(lazy(() => import('pages/extra-pages/sample-page')))
 const EventsPage = Loadable(lazy(() => import('pages/extra-pages/events-page'))); // Yeni etkinlikler sayfası
 const BuyTicketPage = Loadable(lazy(() => import('pages/extra-pages/buy-ticket-page'))); // Yeni bilet satın alma sayfası
 const TicketsPage = Loadable(lazy(() => import('pages/extra-pages/tickets'))); // Yeni biletlerim sayfası
+const ProfilPage = Loadable(lazy(() => import('pages/extra-pages/profil-page'))); // Yeni biletlerim sayfası
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -64,6 +65,10 @@ const MainRoutes = {
     {
       path: 'typography',
       element: <Typography />
+    },
+    {
+      path: 'profil-page',
+      element: <ProfilPage />
     }
   ]
 };
