@@ -16,6 +16,7 @@ const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/index')));
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/sample-page')));
 const EventsPage = Loadable(lazy(() => import('pages/extra-pages/events-page'))); // Yeni etkinlikler sayfası
 const BuyTicketPage = Loadable(lazy(() => import('pages/extra-pages/buy-ticket-page'))); // Yeni bilet satın alma sayfası
+const TicketsPage = Loadable(lazy(() => import('pages/extra-pages/tickets'))); // Yeni biletlerim sayfası
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -51,6 +52,10 @@ const MainRoutes = {
     {
       path: 'buy-ticket',
       element: <BuyTicketPage /> // Yeni bilet satın alma sayfası rotası
+    },
+    {
+      path: 'tickets',
+      element: <TicketsPage /> // Yeni biletlerim sayfası rotası
     },
     {
       path: 'shadow',
