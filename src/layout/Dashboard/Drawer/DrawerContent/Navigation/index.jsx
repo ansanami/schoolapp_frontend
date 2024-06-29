@@ -7,7 +7,6 @@ import TextFormatIcon from '@mui/icons-material/TextFormat';
 import FilterDramaIcon from '@mui/icons-material/FilterDrama'; // Uygun ikon
 import EventIcon from '@mui/icons-material/Event';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import SampleIcon from '@mui/icons-material/InsertDriveFile';
 
 const Navigation = () => (
   <List>
@@ -52,6 +51,11 @@ const Navigation = () => (
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Randevu Al" />
+    <ListItem button component={Link} to="/profil-page">
+      <ListItemIcon>
+        <ConfirmationNumberIcon />
+      </ListItemIcon>
+      <ListItemText primary="Profil Sayfası" />
     </ListItem>
   </List>
 );
