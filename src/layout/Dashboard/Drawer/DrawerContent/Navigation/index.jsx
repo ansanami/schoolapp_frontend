@@ -41,11 +41,11 @@ const Navigation = () => (
       </ListItemIcon>
       <ListItemText primary="Okul Etkinlikleri" />
     </ListItem>
-    <ListItem button component={Link} to="/buy-ticket">
+    <ListItem button component={Link} to="/tickets">
       <ListItemIcon>
         <ConfirmationNumberIcon />
       </ListItemIcon>
-      <ListItemText primary="Bilet Satın Al" />
+      <ListItemText primary="Biletlerim" />
     </ListItem>
     <ListItem button component={Link} to="/sample-page">
       <ListItemIcon>
