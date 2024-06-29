@@ -47,6 +47,12 @@ const Navigation = () => (
       </ListItemIcon>
       <ListItemText primary="Biletlerim" />
     </ListItem>
+    <ListItem button component={Link} to="/appointment">
+      <ListItemIcon>
+        <DashboardIcon />
+      </ListItemIcon>
+      <ListItemText primary="Randevu Al" />
+    </ListItem>
   </List>
 );
 
