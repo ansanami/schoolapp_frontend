@@ -51,6 +51,7 @@ const Navigation = () => (
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Randevu Al" />
+    </ListItem>
     <ListItem button component={Link} to="/profil-page">
       <ListItemIcon>
         <ConfirmationNumberIcon />
