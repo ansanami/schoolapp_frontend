@@ -22,10 +22,17 @@ const support = {
       icon: icons.ChromeOutlined
     },
     {
+      id: 'tickets',
+      title: 'Biletlerim',
+      type: 'item',
+      url: '/tickets',
+      icon: icons.ChromeOutlined
+    },
+    {
       id: 'documentation',
       title: 'Documentation',
       type: 'item',
-      url: 'https://codedthemes.gitbook.io/mantis/',
+      url: '',
       icon: icons.QuestionOutlined,
       external: true,
       target: true
