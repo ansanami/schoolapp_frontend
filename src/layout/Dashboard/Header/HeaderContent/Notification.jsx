@@ -99,7 +99,7 @@ export default function Notification() {
             <Paper sx={{ boxShadow: theme.customShadows.z1, width: '100%', minWidth: 285, maxWidth: { xs: 285, md: 420 } }}>
               <ClickAwayListener onClickAway={handleClose}>
                 <MainCard
-                  title="Notification"
+                  title="Bildirimler"
                   elevation={0}
                   border={false}
                   content={false}
@@ -136,11 +136,11 @@ export default function Notification() {
                       <ListItemText
                         primary={
                           <Typography variant="h6">
-                            It&apos;s{' '}
+                            Yaz dönemi {' '}
                             <Typography component="span" variant="subtitle1">
-                              Cristina danny&apos;s
+                            başvuruları başlamıştır.
                             </Typography>{' '}
-                            birthday today.
+                            Son başvuru tarihi 30 Haziran.
                           </Typography>
                         }
                         secondary="2 min ago"
@@ -162,9 +162,9 @@ export default function Notification() {
                         primary={
                           <Typography variant="h6">
                             <Typography component="span" variant="subtitle1">
-                              Aida Burg
+                            Okul sporları yarışmaları için kayıtlar açılmıştır. 
                             </Typography>{' '}
-                            commented your post.
+                            Katılım için beden eğitimi öğretmeninizle iletişime geçiniz.
                           </Typography>
                         }
                         secondary="5 August"
@@ -185,9 +185,9 @@ export default function Notification() {
                       <ListItemText
                         primary={
                           <Typography variant="h6">
-                            Your Profile is Complete &nbsp;
+                            Mezuniyet törenimiz 25 Temmuz tarihinde gerçekleşecektir.
                             <Typography component="span" variant="subtitle1">
-                              60%
+                            Katılım zorunludur.
                             </Typography>{' '}
                           </Typography>
                         }
@@ -206,13 +206,15 @@ export default function Notification() {
                       </ListItemAvatar>
                       <ListItemText
                         primary={
+                          
                           <Typography variant="h6">
+                            Kütüpanemiz,  
                             <Typography component="span" variant="subtitle1">
-                              Cristina Danny
+                            yaz dönemi boyunca
                             </Typography>{' '}
-                            invited to join{' '}
+                            09:00 - 17:00 saatleri arasında{' '}
                             <Typography component="span" variant="subtitle1">
-                              Meeting.
+                            açık olacaktır.
                             </Typography>
                           </Typography>
                         }
@@ -229,7 +231,7 @@ export default function Notification() {
                       <ListItemText
                         primary={
                           <Typography variant="h6" color="primary">
-                            View All
+                            
                           </Typography>
                         }
                       />
