@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Yönlendirme için
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -50,7 +51,7 @@ function a11yProps(index) {
 
 export default function Profile() {
   const theme = useTheme();
-
+  const navigate = useNavigate(); // Yönlendirme kancası
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const handleToggle = () => {
@@ -62,6 +63,13 @@ export default function Profile() {
       return;
     }
     setOpen(false);
+  };
+
+  const handleLogout = () => {
+    // localStorage'dan token'ı sil
+    localStorage.removeItem('token');
+    // Kullanıcıyı login sayfasına yönlendir
+    navigate('/login');
   };
 
   const [value, setValue] = useState(0);
@@ -133,7 +141,7 @@ export default function Profile() {
                       </Grid>
                       <Grid item>
                         <Tooltip title="Logout">
-                          <IconButton size="large" sx={{ color: 'text.primary' }}>
+                          <IconButton size="large" sx={{ color: 'text.primary' }} onClick={handleLogout}>
                             <LogoutOutlined />
                           </IconButton>
                         </Tooltip>
