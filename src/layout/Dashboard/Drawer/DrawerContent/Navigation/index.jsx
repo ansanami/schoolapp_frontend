@@ -28,11 +28,11 @@ const Navigation = () => (
       </ListItemIcon>
       <ListItemText primary="Okul Duyuruları" />
     </ListItem>
-    <ListItem button component={Link} to="/shadow">
+    <ListItem button component={Link} to="/MealTable">
       <ListItemIcon>
         <FilterDramaIcon />
       </ListItemIcon>
-      <ListItemText primary="Shadow" />
+      <ListItemText primary="Fırından lezzetler" />
     </ListItem>
     <ListItem button component={Link} to="/events">
       <ListItemIcon>

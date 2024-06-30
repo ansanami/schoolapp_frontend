@@ -9,7 +9,7 @@ import Dashboard from 'layout/Dashboard';
 
 const Color = Loadable(lazy(() => import('pages/component-overview/color')));
 const Typography = Loadable(lazy(() => import('pages/component-overview/typography')));
-const Shadow = Loadable(lazy(() => import('pages/component-overview/shadows')));
+const MealTable = Loadable(lazy(() => import('pages/component-overview/MealTable')));
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/index')));
 const ProfilePage = Loadable(lazy(() => import('pages/extra-pages/profil-page')));
 // render - sample page
@@ -59,8 +59,8 @@ const MainRoutes = {
       element: <TicketsPage /> // Yeni biletlerim sayfası rotası
     },
     {
-      path: 'shadow',
-      element: <Shadow />
+      path: 'MealTable',
+      element: <MealTable />
     },
     {
       path: 'appointment',
