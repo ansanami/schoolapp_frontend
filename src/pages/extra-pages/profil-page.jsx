@@ -5,7 +5,8 @@ const ProfilePage = () => {
   const [studentInfo, setStudentInfo] = useState({
     firstName: '',
     lastName: '',
-    tcIdentity: ''
+    tcIdentity: '',
+    mail: ''
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -14,12 +15,13 @@ const ProfilePage = () => {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(`http://localhost:8080/users/${token}`);
-        const { name, surname, tckn } = response.data;
+        const { name, surname, tckn, mail } = response.data;
 
         setStudentInfo({
           firstName: name,
           lastName: surname,
-          tcIdentity: tckn
+          tcIdentity: tckn,
+          mail: mail
         });
       } catch (error) {
         console.error('Error fetching student info:', error);
@@ -33,9 +35,20 @@ const ProfilePage = () => {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
-    // Burada verileri güncelleme işlemi yapabilirsiniz
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(`http://localhost:8080/users`, {
+        name: studentInfo.firstName,
+        surname: studentInfo.lastName,
+        mail: studentInfo.mail,
+        tckn: studentInfo.tcIdentity
+      });
+
+      setIsEditing(false); // Düzenleme modunu kapat
+    } catch (error) {
+      console.error('Error updating student info:', error);
+    }
   };
 
   const editingMode = (
@@ -54,12 +67,19 @@ const ProfilePage = () => {
         value={studentInfo.lastName}
         onChange={(e) => setStudentInfo({ ...studentInfo, lastName: e.target.value })}
       />
+      <label htmlFor="mail">Mail:</label>
+      <input
+        id="mail"
+        type="email"
+        value={studentInfo.mail}
+        onChange={(e) => setStudentInfo({ ...studentInfo, mail: e.target.value })}
+      />
       <label htmlFor="tcIdentity">TC Kimlik Numarası:</label>
       <input
         id="tcIdentity"
         type="text"
         value={studentInfo.tcIdentity}
-        onChange={(e) => setStudentInfo({ ...studentInfo, tcIdentity: e.target.value })}
+        readOnly
       />
       <button onClick={handleSave}>Kaydet</button>
     </div>
@@ -69,6 +89,7 @@ const ProfilePage = () => {
     <div>
       <p><strong>Adı:</strong> {studentInfo.firstName}</p>
       <p><strong>Soyadı:</strong> {studentInfo.lastName}</p>
+      <p><strong>Mail:</strong> {studentInfo.mail}</p>
       <p><strong>TC Kimlik Numarası:</strong> {studentInfo.tcIdentity}</p>
       <button onClick={handleEditClick}>Düzenle</button>
     </div>
