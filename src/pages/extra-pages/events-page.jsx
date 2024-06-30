@@ -1,11 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Button from '@mui/material/Button';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Box, Grid, Typography, Card, CardContent, CardActions, Button } from '@mui/material';
+import EventIcon from '@mui/icons-material/Event';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -40,21 +36,35 @@ export default function EventsPage() {
 
   return (
     <MainCard title="Okul Etkinlikleri">
-      {events.map((event, index) => (
-        <Accordion key={index}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">{event.title}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography variant="body2"><strong>Yer:</strong> {event.location}</Typography>
-            <Typography variant="body2"><strong>Zaman:</strong> {event.time}</Typography>
-            <Typography variant="body2"><strong>Detaylar:</strong> {event.details}</Typography>
-            <Button variant="contained" color="primary" onClick={() => handleBuyTicket(event.title)} style={{ marginTop: '10px' }}>
-              Bilet Al
-            </Button>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={3}>
+          {events.map((event, index) => (
+            <Grid item xs={12} md={6} lg={4} key={index}>
+              <Card>
+                <CardContent>
+                  <Box display="flex" alignItems="center" mb={2}>
+                    <EventIcon color="primary" sx={{ mr: 2 }} />
+                    <Typography variant="h6" component="div">{event.title}</Typography>
+                  </Box>
+                  <Typography variant="body2" color="text.secondary"><strong>Yer:</strong> {event.location}</Typography>
+                  <Typography variant="body2" color="text.secondary"><strong>Zaman:</strong> {event.time}</Typography>
+                  <Typography variant="body2" color="text.secondary" paragraph><strong>Detaylar:</strong> {event.details}</Typography>
+                </CardContent>
+                <CardActions>
+                  <Button 
+                    variant="contained" 
+                    color="primary" 
+                    fullWidth 
+                    onClick={() => handleBuyTicket(event.title)}
+                  >
+                    Bilet Al
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </MainCard>
   );
 }

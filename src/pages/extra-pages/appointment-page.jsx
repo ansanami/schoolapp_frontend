@@ -119,7 +119,7 @@ export default function AppointmentPage() {
               month: "Ay",
               week: "Hafta",
               day: "Gün",
-              agenda: "Ajanda",
+              agenda: "Ajanda"
             }}
           />
         </div>
@@ -147,7 +147,7 @@ export default function AppointmentPage() {
         )}
 
         <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Randevu Al
+          Görüşme Talebi Gönder
         </Button>
       </Box>
     </MainCard>

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Box, Button, TextField, Typography, Avatar, Paper, Grid, Card, CardContent, CardActions, Divider } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
+import PersonIcon from '@mui/icons-material/Person';
 
 const ProfilePage = () => {
   const [studentInfo, setStudentInfo] = useState({
@@ -51,55 +55,109 @@ const ProfilePage = () => {
     }
   };
 
-  const editingMode = (
-    <div>
-      <label htmlFor="firstName">Adı:</label>
-      <input
-        id="firstName"
-        type="text"
-        value={studentInfo.firstName}
-        onChange={(e) => setStudentInfo({ ...studentInfo, firstName: e.target.value })}
-      />
-      <label htmlFor="lastName">Soyadı:</label>
-      <input
-        id="lastName"
-        type="text"
-        value={studentInfo.lastName}
-        onChange={(e) => setStudentInfo({ ...studentInfo, lastName: e.target.value })}
-      />
-      <label htmlFor="mail">Mail:</label>
-      <input
-        id="mail"
-        type="email"
-        value={studentInfo.mail}
-        onChange={(e) => setStudentInfo({ ...studentInfo, mail: e.target.value })}
-      />
-      <label htmlFor="tcIdentity">TC Kimlik Numarası:</label>
-      <input
-        id="tcIdentity"
-        type="text"
-        value={studentInfo.tcIdentity}
-        readOnly
-      />
-      <button onClick={handleSave}>Kaydet</button>
-    </div>
-  );
-
-  const viewingMode = (
-    <div>
-      <p><strong>Adı:</strong> {studentInfo.firstName}</p>
-      <p><strong>Soyadı:</strong> {studentInfo.lastName}</p>
-      <p><strong>Mail:</strong> {studentInfo.mail}</p>
-      <p><strong>TC Kimlik Numarası:</strong> {studentInfo.tcIdentity}</p>
-      <button onClick={handleEditClick}>Düzenle</button>
-    </div>
-  );
-
   return (
-    <div style={{ fontSize: '1.5em' }}>
-      <h2>Profil Sayfası</h2>
-      {isEditing ? editingMode : viewingMode}
-    </div>
+    <Box sx={{ flexGrow: 1, padding: 4 }}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Avatar sx={{ width: 100, height: 100, mb: 2 }}>
+                <PersonIcon sx={{ fontSize: 60 }} />
+              </Avatar>
+              <Typography variant="h5" component="h1" gutterBottom>
+                Profil Bilgileri
+              </Typography>
+              {isEditing ? (
+                <Box component="form" sx={{ width: '100%' }} noValidate autoComplete="off">
+                  <TextField
+                    fullWidth
+                    label="Adı"
+                    value={studentInfo.firstName}
+                    onChange={(e) => setStudentInfo({ ...studentInfo, firstName: e.target.value })}
+                    sx={{ mb: 2 }}
+                  />
+                  <TextField
+                    fullWidth
+                    label="Soyadı"
+                    value={studentInfo.lastName}
+                    onChange={(e) => setStudentInfo({ ...studentInfo, lastName: e.target.value })}
+                    sx={{ mb: 2 }}
+                  />
+                  <TextField
+                    fullWidth
+                    label="Mail"
+                    type="email"
+                    value={studentInfo.mail}
+                    onChange={(e) => setStudentInfo({ ...studentInfo, mail: e.target.value })}
+                    sx={{ mb: 2 }}
+                  />
+                  <TextField
+                    fullWidth
+                    label="TC Kimlik Numarası"
+                    value={studentInfo.tcIdentity}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    sx={{ mb: 2 }}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<SaveIcon />}
+                    onClick={handleSave}
+                    fullWidth
+                    sx={{ mt: 2 }}
+                  >
+                    Kaydet
+                  </Button>
+                </Box>
+              ) : (
+                <Box sx={{ width: '100%' }}>
+                  <Typography variant="body1" gutterBottom>
+                    <strong>Adı:</strong> {studentInfo.firstName}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    <strong>Soyadı:</strong> {studentInfo.lastName}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    <strong>Mail:</strong> {studentInfo.mail}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    <strong>TC Kimlik Numarası:</strong> {studentInfo.tcIdentity}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<EditIcon />}
+                    onClick={handleEditClick}
+                    fullWidth
+                    sx={{ mt: 2 }}
+                  >
+                    Düzenle
+                  </Button>
+                </Box>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5" gutterBottom>
+                Ek Bilgiler
+              </Typography>
+              <Divider sx={{ mb: 2 }} />
+              <Typography variant="body1" paragraph>
+                Bu bölümde kullanıcı hakkında ek bilgileri, istatistikleri veya başka önemli bilgileri gösterebilirsiniz. Bu alan, profil sayfasının daha dolu ve bilgi açısından zengin görünmesini sağlar.
+              </Typography>
+              <Typography variant="body1" paragraph>
+                Kullanıcının aldığı dersler, katıldığı etkinlikler veya diğer profil bilgileri burada yer alabilir.
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
