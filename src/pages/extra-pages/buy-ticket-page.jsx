@@ -32,6 +32,23 @@ export default function BuyTicketPage() {
     setSelectedSeat(seat);
   };
 
+  const handlePurchase = async () => {
+    if (selectedSeat) {
+      try {
+        await axios.put(`http://localhost:8080/session-seats/${selectedSeat.actSeat.id}`, {
+          status: 'BLOCKED',
+        });
+        // Verileri tekrar yükle ve kullanıcıya bir mesaj göster
+        const response = await axios.get(`http://localhost:8080/session-seats/${sessionId}`);
+        setSeats(response.data);
+        alert('Koltuk başarıyla bloke edildi.');
+      } catch (error) {
+        console.error('Error updating seat status:', error);
+        alert('Koltuk bloke edilirken bir hata oluştu.');
+      }
+    }
+  };
+
   const renderSeats = () => {
     const rows = [...new Set(seats.map((seat) => seat.actSeat.line))];
     const seatsPerRow = seats.filter((seat) => seat.actSeat.line === rows[0]).length;
@@ -82,7 +99,12 @@ export default function BuyTicketPage() {
           <Typography variant="body1">
             {`Sıra: ${selectedSeat.actSeat.line}, Koltuk No: ${selectedSeat.actSeat.no}`}
           </Typography>
-          <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginTop: '20px' }}
+            onClick={handlePurchase}
+          >
             Satın Al
           </Button>
         </div>
