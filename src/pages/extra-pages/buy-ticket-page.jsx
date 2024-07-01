@@ -35,9 +35,9 @@ export default function BuyTicketPage() {
   const handlePurchase = async () => {
     if (selectedSeat) {
       try {
-        await axios.put(`http://localhost:8080/session-seats/${selectedSeat.actSeat.id}`, {
+        await axios.put(`http://localhost:8080/session-seats/${selectedSeat.actSeat.id}/${localStorage.getItem("token") }`, {
           status: 'BLOCKED',
-        });
+});
         // Verileri tekrar yükle ve kullanıcıya bir mesaj göster
         const response = await axios.get(`http://localhost:8080/session-seats/${sessionId}`);
         setSeats(response.data);
@@ -47,7 +47,8 @@ export default function BuyTicketPage() {
         alert('Koltuk bloke edilirken bir hata oluştu.');
       }
     }
-  };
+};
+
 
   const renderSeats = () => {
     const rows = [...new Set(seats.map((seat) => seat.actSeat.line))];
