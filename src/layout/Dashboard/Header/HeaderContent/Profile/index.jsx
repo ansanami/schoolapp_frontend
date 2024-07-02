@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Yönlendirme için
+import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -51,9 +52,27 @@ function a11yProps(index) {
 
 export default function Profile() {
   const theme = useTheme();
-  const navigate = useNavigate(); // Yönlendirme kancası
+  const navigate = useNavigate();
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const [userData, setUserData] = useState({ name: '', surname: '' });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const tckmlikno = localStorage.getItem('token');
+      if (tckmlikno) {
+        try {
+          const response = await axios.get(`http://localhost:8080/users/${tckmlikno}`);
+          setUserData({ name: response.data.name, surname: response.data.surname });
+        } catch (error) {
+          console.error('Failed to fetch user data:', error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -66,9 +85,7 @@ export default function Profile() {
   };
 
   const handleLogout = () => {
-    // localStorage'dan token'ı sil
     localStorage.removeItem('token');
-    // Kullanıcıyı login sayfasına yönlendir
     navigate('/login');
   };
 
@@ -97,9 +114,9 @@ export default function Profile() {
         onClick={handleToggle}
       >
         <Stack direction="row" spacing={1.25} alignItems="center" sx={{ p: 0.5 }}>
-          <Avatar alt="profile user" src={avatar1} size="sm" />
+          
           <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
-            John Doe
+            {userData.name} {userData.surname}
           </Typography>
         </Stack>
       </ButtonBase>
@@ -130,11 +147,11 @@ export default function Profile() {
                     <Grid container justifyContent="space-between" alignItems="center">
                       <Grid item>
                         <Stack direction="row" spacing={1.25} alignItems="center">
-                          <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
+                         
                           <Stack>
-                            <Typography variant="h6">John Doe</Typography>
+                            <Typography variant="h6">{userData.name} {userData.surname}</Typography>
                             <Typography variant="body2" color="text.secondary">
-                              UI/UX Designer
+                              
                             </Typography>
                           </Stack>
                         </Stack>

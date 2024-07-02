@@ -9,43 +9,29 @@ import Box from '@mui/material/Box';
 
 // project import
 import MainCard from 'components/MainCard';
-import IncomeAreaChart from './IncomeAreaChart';
+import BookReadingChart from './BookReadingChart'; // Assume you have a chart component for this
 
-// ==============================|| DEFAULT - UNIQUE VISITOR ||============================== //
+// ==============================|| DEFAULT - BOOK READING CHART ||============================== //
 
 export default function UniqueVisitorCard() {
-  const [slot, setSlot] = useState('week');
+  const [slot, setSlot] = useState('ay');
 
   return (
     <>
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item>
-          <Typography variant="h5">Unique Visitor</Typography>
+          <Typography variant="h5">Öğrencinin Kitap Okuma Grafiği</Typography>
         </Grid>
         <Grid item>
           <Stack direction="row" alignItems="center" spacing={0}>
-            <Button
-              size="small"
-              onClick={() => setSlot('month')}
-              color={slot === 'month' ? 'primary' : 'secondary'}
-              variant={slot === 'month' ? 'outlined' : 'text'}
-            >
-              Month
-            </Button>
-            <Button
-              size="small"
-              onClick={() => setSlot('week')}
-              color={slot === 'week' ? 'primary' : 'secondary'}
-              variant={slot === 'week' ? 'outlined' : 'text'}
-            >
-              Week
-            </Button>
+            
+           
           </Stack>
         </Grid>
       </Grid>
       <MainCard content={false} sx={{ mt: 1.5 }}>
         <Box sx={{ pt: 1, pr: 2 }}>
-          <IncomeAreaChart slot={slot} />
+          <BookReadingChart slot={slot} />
         </Box>
       </MainCard>
     </>

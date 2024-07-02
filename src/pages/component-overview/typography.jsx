@@ -22,7 +22,7 @@ export default function Announcements() {
     <ComponentSkeleton>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <MainCard title="Okul Duyuruları">
+          <MainCard title="">
             <Stack spacing={2}>
               {announcementsData.map((announcement, index) => (
                 <Card key={index} sx={{ p: 2 }}>

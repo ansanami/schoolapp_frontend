@@ -42,7 +42,7 @@ function ClassSchedule() {
     <ComponentSkeleton>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <MainCard title="Class Schedule">
+          <MainCard title="">
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>

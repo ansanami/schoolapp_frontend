@@ -71,7 +71,7 @@ export default function AppointmentPage() {
   };
 
   return (
-    <MainCard title="Randevu Al">
+    <MainCard title="">
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField
           select
