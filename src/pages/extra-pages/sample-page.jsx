@@ -39,7 +39,7 @@ export default function EventsPage() {
   };
 
   return (
-    <MainCard title="Okul Etkinlikleri">
+    <MainCard title="">
       {events.map((event, index) => (
         <Accordion key={index}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>

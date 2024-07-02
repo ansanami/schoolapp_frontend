@@ -23,10 +23,16 @@ const barChartOptions = {
     }
   },
   dataLabels: {
-    enabled: false
+    enabled: true,
+    formatter: function (val) {
+      return val;
+    },
+    style: {
+      colors: ['#fff']
+    }
   },
   xaxis: {
-    categories: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+    categories: ['Türkçe', 'Sosyal Bilgiler', 'Matematik', 'Fen Bilimleri'],
     axisBorder: {
       show: false
     },
@@ -35,10 +41,21 @@ const barChartOptions = {
     }
   },
   yaxis: {
-    show: false
+    labels: {
+      formatter: function (val) {
+        return val.toFixed(0);
+      }
+    }
   },
   grid: {
-    show: false
+    show: true
+  },
+  tooltip: {
+    custom: function({ series, seriesIndex, dataPointIndex, w }) {
+      return `<div class="arrow_box">
+                <span>${w.globals.labels[dataPointIndex]}</span>
+              </div>`;
+    }
   }
 };
 
@@ -52,7 +69,7 @@ export default function MonthlyBarChart() {
 
   const [series] = useState([
     {
-      data: [80, 95, 70, 42, 65, 55, 78]
+      data: [35, 40, 28, 22] // Örnek net değerleri
     }
   ]);
 
@@ -65,7 +82,7 @@ export default function MonthlyBarChart() {
       xaxis: {
         labels: {
           style: {
-            colors: [secondary, secondary, secondary, secondary, secondary, secondary, secondary]
+            colors: [secondary, secondary, secondary, secondary]
           }
         }
       }

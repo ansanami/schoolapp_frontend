@@ -34,7 +34,7 @@ const utilities = {
     },
     {
       id: 'util-color',
-      title: 'Color',
+      title: 'Ders Programı',
       type: 'item',
       url: '/color',
       icon: icons.BgColorsOutlined

@@ -15,7 +15,7 @@ const dashboard = {
   children: [
     {
       id: 'dashboard',
-      title: 'Dashboard',
+      title: 'Anasayfa',
       type: 'item',
       url: '/dashboard/default',
       icon: icons.DashboardOutlined,

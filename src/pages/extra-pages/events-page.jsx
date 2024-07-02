@@ -29,7 +29,7 @@ export default function EventsPage() {
   };
 
   return (
-    <MainCard title="Okul Etkinlikleri">
+    <MainCard title="">
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={3}>
           {events.map((event) => (
