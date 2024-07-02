@@ -116,7 +116,7 @@ export default function AuthLogin({ isDemo = false }) {
               </Grid>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="password-login">Password</InputLabel>
+                  <InputLabel htmlFor="password-login">Şifre</InputLabel>
                   <OutlinedInput
                     fullWidth
                     error={Boolean(touched.password && errors.password)}
@@ -139,7 +139,7 @@ export default function AuthLogin({ isDemo = false }) {
                         </IconButton>
                       </InputAdornment>
                     }
-                    placeholder="Enter password"
+                    placeholder="Şifre giriniz..."
                   />
                 </Stack>
                 {touched.password && errors.password && (
@@ -161,10 +161,10 @@ export default function AuthLogin({ isDemo = false }) {
                         size="small"
                       />
                     }
-                    label={<Typography variant="h6">Keep me sign in</Typography>}
+                    label={<Typography variant="h6">Beni hatırla</Typography>}
                   />
                   <Link variant="h6" component={RouterLink} color="text.primary">
-                    Forgot Password?
+                    Şifremi Unuttum
                   </Link>
                 </Stack>
               </Grid>
@@ -176,7 +176,7 @@ export default function AuthLogin({ isDemo = false }) {
               <Grid item xs={12}>
                 <AnimateButton>
                   <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
-                    Login
+                    Giriş
                   </Button>
                 </AnimateButton>
               </Grid>
