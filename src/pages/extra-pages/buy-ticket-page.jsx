@@ -5,6 +5,13 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import ChairIcon from '@mui/icons-material/EventSeat';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import { useLocation } from 'react-router-dom';
 
 export default function BuyTicketPage() {
@@ -14,6 +21,10 @@ export default function BuyTicketPage() {
   const sessionId = 1;
   const [seats, setSeats] = useState([]);
   const [selectedSeat, setSelectedSeat] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
   useEffect(() => {
     const fetchSeatData = async () => {
@@ -35,41 +46,61 @@ export default function BuyTicketPage() {
   const handlePurchase = async () => {
     if (selectedSeat) {
       try {
-        await axios.put(`http://localhost:8080/session-seats/${selectedSeat.actSeat.id}/${localStorage.getItem("token") }`, {
+        await axios.put(`http://localhost:8080/session-seats/${selectedSeat.actSeat.id}/${localStorage.getItem("token")}`, {
           status: 'BLOCKED',
-});
-        // Verileri tekrar yükle ve kullanıcıya bir mesaj göster
+        });
         const response = await axios.get(`http://localhost:8080/session-seats/${sessionId}`);
         setSeats(response.data);
-        alert('Koltuk başarıyla bloke edildi.');
+        setSnackbarMessage('Koltuk seçimi başarılı bir şekilde tamamlandı.');
+        setSnackbarSeverity('success');
       } catch (error) {
         console.error('Error updating seat status:', error);
-        alert('Koltuk bloke edilirken bir hata oluştu.');
+        setSnackbarMessage('Koltuk seçimi başarısız.');
+        setSnackbarSeverity('error');
       }
+      setSnackbarOpen(true);
+      setDialogOpen(false);
     }
-};
+  };
 
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = (confirm) => {
+    setDialogOpen(false);
+    if (confirm) {
+      handlePurchase();
+    }
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   const renderSeats = () => {
-    const rows = [...new Set(seats.map((seat) => seat.actSeat.line))];
-    const seatsPerRow = seats.filter((seat) => seat.actSeat.line === rows[0]).length;
+    const rows = [...new Set(seats.map((seat) => seat.actSeat.line))].sort();
+    const seatsByRow = rows.map(row => {
+      return seats
+        .filter(seat => seat.actSeat.line === row)
+        .sort((a, b) => a.actSeat.no - b.actSeat.no);
+    });
 
-    return rows.map((row) => (
+    return rows.map((row, rowIndex) => (
       <div key={row}>
         <Typography variant="h6" align="left">{`Sıra ${row}`}</Typography>
         <Grid container spacing={2} justifyContent="center" alignItems="center" style={{ marginBottom: '20px' }}>
-          {Array.from({ length: seatsPerRow }).map((_, index) => {
-            const seat = seats.find(seat => seat.actSeat.line === row && seat.actSeat.no === index + 1);
-            const isReserved = seat?.status !== 'AVAILABLE';
+          {seatsByRow[rowIndex].map((seat, index) => {
+            const isReserved = seat.status !== 'AVAILABLE';
 
             return (
-              <Grid item key={index}>
+              <Grid item key={seat.actSeat.id}>
                 <Button
                   variant="outlined"
                   onClick={() => seat && handleSeatSelection(seat)}
-                  disabled={!seat || isReserved}
+                  disabled={isReserved}
                   style={{
-                    backgroundColor: !seat ? 'transparent' : isReserved ? 'gray' : selectedSeat?.actSeat.id === seat.actSeat.id ? 'yellow' : 'lightgreen',
+                    backgroundColor: isReserved ? 'gray' : selectedSeat?.actSeat.id === seat.actSeat.id ? 'yellow' : 'lightgreen',
                     minWidth: '60px',
                     minHeight: '60px',
                     display: 'flex',
@@ -78,7 +109,7 @@ export default function BuyTicketPage() {
                   }}
                 >
                   <ChairIcon />
-                  {seat && <Typography variant="caption">{`${row}${seat.actSeat.no}`}</Typography>}
+                  {<Typography variant="caption">{`${row}${seat.actSeat.no}`}</Typography>}
                 </Button>
               </Grid>
             );
@@ -104,12 +135,43 @@ export default function BuyTicketPage() {
             variant="contained"
             color="primary"
             style={{ marginTop: '20px' }}
-            onClick={handlePurchase}
+            onClick={handleDialogOpen}
           >
             Satın Al
           </Button>
         </div>
       )}
+
+      <Dialog
+        open={dialogOpen}
+        onClose={() => handleDialogClose(false)}
+      >
+        <DialogTitle>Koltuk Seçimi Onayı</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {`Sıra: ${selectedSeat?.actSeat.line}, Koltuk No: ${selectedSeat?.actSeat.no} numaralı koltuğu seçmek üzeresiniz. Onaylıyor musunuz?`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleDialogClose(false)} color="secondary">
+            İptal
+          </Button>
+          <Button onClick={() => handleDialogClose(true)} color="primary">
+            Onayla
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
