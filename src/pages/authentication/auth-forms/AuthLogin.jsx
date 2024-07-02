@@ -64,7 +64,9 @@ export default function AuthLogin({ isDemo = false }) {
       // Handle successful response
       console.log('Login successful', data);
       localStorage.setItem('token', values.tckn);
+      localStorage.setItem('id', data.id);
       console.log(localStorage.getItem('token'));
+      console.log(localStorage.getItem('id'));
       setStatus({ success: true });
       setSubmitting(false);
       navigate('/dashboard/default'); // Redirect to the dashboard
