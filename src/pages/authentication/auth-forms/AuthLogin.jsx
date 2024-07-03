@@ -55,7 +55,7 @@ export default function AuthLogin({ isDemo = false }) {
         })
       });
   
-      const data = await response.json(); // Başarılı olmayan durumlarda bile JSON cevabı alabilirsiniz
+      const data = await response.json();
   
       if (!response.ok) {
         throw new Error(data.message || 'Network response was not ok');

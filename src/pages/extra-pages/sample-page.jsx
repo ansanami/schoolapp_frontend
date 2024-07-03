@@ -10,27 +10,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // project import
 import MainCard from 'components/MainCard';
 
-const events = [
-  {
-    title: "Matematik Yarışması",
-    location: "Okul Salonu",
-    time: "10:00 AM - 12:00 PM",
-    details: "Bu etkinlikte öğrenciler arasında matematik bilgi yarışması düzenlenecektir."
-  },
-  {
-    title: "Bilim Fuarı",
-    location: "Bahçe",
-    time: "1:00 PM - 4:00 PM",
-    details: "Öğrenciler projelerini sergileyip bilimsel çalışmaları hakkında sunum yapacaklardır."
-  },
-  {
-    title: "Tiyatro Gösterisi",
-    location: "Konferans Salonu",
-    time: "3:00 PM - 5:00 PM",
-    details: "Öğrencilerin hazırladığı tiyatro gösterisi sahnelenecektir."
-  }
-];
-
 export default function EventsPage() {
   const navigate = useNavigate();
 

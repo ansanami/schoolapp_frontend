@@ -148,10 +148,10 @@ const ProfilePage = () => {
               </Typography>
               <Divider sx={{ mb: 2 }} />
               <Typography variant="body1" paragraph>
-                Bu bölümde kullanıcı hakkında ek bilgileri, istatistikleri veya başka önemli bilgileri gösterebilirsiniz. Bu alan, profil sayfasının daha dolu ve bilgi açısından zengin görünmesini sağlar.
+                
               </Typography>
               <Typography variant="body1" paragraph>
-                Kullanıcının aldığı dersler, katıldığı etkinlikler veya diğer profil bilgileri burada yer alabilir.
+                
               </Typography>
             </CardContent>
           </Card>
