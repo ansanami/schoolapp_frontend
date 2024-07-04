@@ -50,7 +50,7 @@ export default function TicketsPage() {
     const fetchTickets = async () => {
       try {
         console.log(`Fetching tickets for user ID: ${userId}`);
-        const response = await axios.get(`http://localhost:8080/tickets/${userId}`);
+        const response = await axios.get(`http://localhost:8080/session-seats/tickets/${userId}`);
         console.log('API response:', response.data);
         setTickets(response.data);
       } catch (error) {
@@ -74,12 +74,12 @@ export default function TicketsPage() {
           tickets.map((ticket, index) => (
             <CustomAccordion key={index}>
               <CustomAccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h6">{ticket.actSessionHall.actSessionInfo.activityName}</Typography>
+                <Typography variant="h6">{ticket.actSessionInfo.activityName}</Typography>
               </CustomAccordionSummary>
               <CustomAccordionDetails>
-                <InfoText variant="body2"><strong>Yer:</strong> {ticket.actSessionHall.actSessionInfo.actHall.name}</InfoText>
-                <InfoText variant="body2"><strong>Zaman:</strong> {new Date(ticket.actSessionHall.actSessionInfo.activityDate).toLocaleString()}</InfoText>
-                <InfoText variant="body2"><strong>Koltuk:</strong> {`${ticket.actSessionHall.actSeat.line}${ticket.actSessionHall.actSeat.no}`}</InfoText>
+                <InfoText variant="body2"><strong>Yer:</strong> {ticket.actSessionInfo.actHall.name}</InfoText>
+                <InfoText variant="body2"><strong>Zaman:</strong> {new Date(ticket.actSessionInfo.activityDate).toLocaleString()}</InfoText>
+                <InfoText variant="body2"><strong>Koltuk:</strong> {`${ticket.actSeat.line}${ticket.actSeat.no}`}</InfoText>
               </CustomAccordionDetails>
             </CustomAccordion>
           ))
