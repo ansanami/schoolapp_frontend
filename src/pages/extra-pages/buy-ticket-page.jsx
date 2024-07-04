@@ -121,7 +121,7 @@ export default function BuyTicketPage() {
 
   return (
     <div style={{ textAlign: 'center', maxWidth: '100%' }}>
-      <Typography variant="h4">Bilet Satın Al - {eventTitle}</Typography>
+      <Typography variant="h4">Bilet Al - {eventTitle}</Typography>
       <Paper elevation={3} style={{ padding: '30px', margin: '20px auto', maxWidth: '95%' }}>
         {renderSeats()}
       </Paper>
@@ -137,7 +137,7 @@ export default function BuyTicketPage() {
             style={{ marginTop: '20px' }}
             onClick={handleDialogOpen}
           >
-            Satın Al
+            Bilet Al
           </Button>
         </div>
       )}
