@@ -12,18 +12,13 @@ const MealTable = Loadable(lazy(() => import('pages/component-overview/MealTable
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/index')));
 const ProfilePage = Loadable(lazy(() => import('pages/extra-pages/profil-page')));
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/sample-page')));
- Appointment
 const EventsPage = Loadable(lazy(() => import('pages/extra-pages/events-page'))); // Yeni etkinlikler sayfası
 const BuyTicketPage = Loadable(lazy(() => import('pages/extra-pages/buy-ticket-page'))); // Yeni bilet satın alma sayfası
 const TicketsPage = Loadable(lazy(() => import('pages/extra-pages/tickets'))); // Yeni biletlerim sayfası
 const AppointmentPage = Loadable(lazy(() => import('pages/extra-pages/appointment-page'))); // Yeni randevu alma sayfası
 const AppointmentsPage = Loadable(lazy(() => import('pages/extra-pages/AppointmentsPage')));
 // ==============================|| MAIN ROUTING ||============================== //
-const EventsPage = Loadable(lazy(() => import('pages/extra-pages/events-page')));
-const BuyTicketPage = Loadable(lazy(() => import('pages/extra-pages/buy-ticket-page')));
-const TicketsPage = Loadable(lazy(() => import('pages/extra-pages/tickets')));
-const AppointmentPage = Loadable(lazy(() => import('pages/extra-pages/appointment-page')));
- main
+
 
 const MainRoutes = {
   path: '/',
