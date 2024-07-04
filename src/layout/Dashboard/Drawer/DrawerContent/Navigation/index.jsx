@@ -9,6 +9,7 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import PersonIcon from '@mui/icons-material/Person';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 
 const Navigation = () => (
   <List>
@@ -59,6 +60,12 @@ const Navigation = () => (
         <CalendarTodayIcon />
       </ListItemIcon>
       <ListItemText primary="Randevu Al" sx={{ pl: 2 }} />
+    </ListItem>
+    <ListItem button component={Link} to="/AppointmentsPage">
+      <ListItemIcon sx={{ color: 'primary.dark' }}>
+        <EventNoteIcon />
+      </ListItemIcon>
+      <ListItemText primary="Randevularım" sx={{ pl: 2 }} />
     </ListItem>
   </List>
 );
