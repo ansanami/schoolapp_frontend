@@ -11,7 +11,7 @@ import MainCard from 'components/MainCard';
 import axios from 'axios';
 
 const locales = {
-  'tr': tr, 
+  'tr': tr,
 };
 
 const localizer = dateFnsLocalizer({
@@ -28,7 +28,7 @@ export default function AppointmentPage() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedType, setSelectedType] = useState('');
-  const [events, setEvents] = useState('');
+  const [teacherAppointments, setTeacherAppointments] = useState([]);
   const [submitMessage, setSubmitMessage] = useState('');
 
   useEffect(() => {
@@ -44,8 +44,34 @@ export default function AppointmentPage() {
     fetchTeachers();
   }, []);
 
+  useEffect(() => {
+    const fetchTeacherAppointments = async () => {
+      if (!selectedTeacher) {
+        setTeacherAppointments([]);
+        return;
+      }
+      try {
+        const response = await axios.get(`http://localhost:8080/teacher/${selectedTeacher}/appointments`);
+        const fetchedAppointments = response.data.map((appointment) => ({
+          id: appointment.id,
+          start: new Date(appointment.date),
+          end: new Date(new Date(appointment.date).getTime() + 60 * 60 * 1000), // assuming 1-hour appointments
+          title: `Randevu - ${format(new Date(appointment.date), 'dd.MM.yyyy HH:mm')}`,
+        }));
+        setTeacherAppointments(fetchedAppointments);
+      } catch (error) {
+        console.error('Error fetching teacher appointments:', error);
+        setTeacherAppointments([]);
+      }
+    };
+
+    fetchTeacherAppointments();
+  }, [selectedTeacher]);
+
   const handleTeacherChange = (event) => {
     setSelectedTeacher(event.target.value);
+    setSelectedDate(null); // Reset selected date when teacher changes
+    setSelectedTime(''); // Reset selected time when teacher changes
   };
 
   const handleTypeChange = (event) => {
@@ -58,23 +84,25 @@ export default function AppointmentPage() {
 
   const handleSelectSlot = (slotInfo) => {
     setSelectedDate(slotInfo.start);
-    setEvents([
-      {
-        start: slotInfo.start,
-        end: slotInfo.end,
-        title: 'Seçildi',
-      },
-    ]);
   };
 
   const handleSubmit = async () => {
     try {
       const userId = localStorage.getItem('id');
-      const currentDate = new Date();
+      if (!userId || !selectedTeacher || !selectedDate || !selectedTime || !selectedType) {
+        setSubmitMessage('Lütfen tüm alanları doldurun.');
+        return;
+      }
+
+      const appointmentDate = new Date(selectedDate);
+      const [hours, minutes] = selectedTime.split(':');
+      appointmentDate.setHours(hours, minutes, 0, 0);
+
       const appointmentData = {
         userId: userId,
         teacherId: selectedTeacher,
-        date: currentDate,
+        date: appointmentDate.toISOString(),
+        type: selectedType,
         status: 'PENDING'
       };
 
@@ -82,6 +110,13 @@ export default function AppointmentPage() {
       console.log('Appointment creation response:', response.data);
 
       setSubmitMessage('Başarılı bir şekilde oluşturuldu.');
+      // Update the appointments list
+      setTeacherAppointments([...teacherAppointments, {
+        id: response.data.id,
+        start: appointmentDate,
+        end: new Date(appointmentDate.getTime() + 60 * 60 * 1000), // assuming 1-hour appointments
+        title: `Randevu - ${format(appointmentDate, 'dd.MM.yyyy HH:mm')}`,
+      }]);
     } catch (error) {
       console.error('Error creating appointment:', error);
       setSubmitMessage('Oluşturulamadı.');
@@ -121,7 +156,7 @@ export default function AppointmentPage() {
         <div style={{ height: '500px', marginTop: '20px' }}>
           <Calendar
             localizer={localizer}
-            events={events}
+            events={teacherAppointments}
             selectable
             onSelectSlot={handleSelectSlot}
             startAccessor="start"
@@ -135,6 +170,15 @@ export default function AppointmentPage() {
               week: "Hafta",
               day: "Gün",
               agenda: "Ajanda"
+            }}
+            min={new Date(2024, 0, 1, 8, 0)} // Start time: 08:00 AM
+            max={new Date(2024, 0, 1, 18, 0)} // End time: 06:00 PM
+            eventPropGetter={(event) => {
+              const backgroundColor = '#3174ad'; // default background color
+              if (event.title.startsWith('Randevu')) {
+                backgroundColor = '#f00'; // red for appointments
+              }
+              return { style: { backgroundColor } };
             }}
           />
         </div>
