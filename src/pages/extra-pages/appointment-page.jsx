@@ -110,13 +110,6 @@ export default function AppointmentPage() {
       console.log('Appointment creation response:', response.data);
 
       setSubmitMessage('Başarılı bir şekilde oluşturuldu.');
-      // Update the appointments list
-      setTeacherAppointments([...teacherAppointments, {
-        id: response.data.id,
-        start: appointmentDate,
-        end: new Date(appointmentDate.getTime() + 60 * 60 * 1000), // assuming 1-hour appointments
-        title: `Randevu - ${format(appointmentDate, 'dd.MM.yyyy HH:mm')}`,
-      }]);
     } catch (error) {
       console.error('Error creating appointment:', error);
       setSubmitMessage('Oluşturulamadı.');
