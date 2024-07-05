@@ -179,7 +179,7 @@ export default function AppointmentPage() {
         {selectedDate && (
           <>
             <Typography variant="h6" component="div">
-              Tarih: {format(selectedDate, 'dd.MM.yyyy')}
+              Seçilen Tarih: {format(selectedDate, 'dd.MM.yyyy')}
             </Typography>
             <TextField
               select

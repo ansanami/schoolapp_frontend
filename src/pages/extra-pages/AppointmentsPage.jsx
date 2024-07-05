@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, Button, Card, CardContent, CardActions, Divider } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, Button, Card, CardContent, CardActions, Divider, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from '@mui/material';
 import axios from 'axios';
 
 export default function AppointmentsPage() {
   const [userDetails, setUserDetails] = useState(null);
   const [appointments, setAppointments] = useState([]);
   const [teacherNames, setTeacherNames] = useState({});
+  const [openDialog, setOpenDialog] = useState(false);
+  const [appointmentToCancel, setAppointmentToCancel] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -72,12 +76,27 @@ export default function AppointmentsPage() {
     }
   };
 
-  const handleCancelAppointment = async (appointmentId) => {
+  const handleOpenDialog = (appointment) => {
+    setAppointmentToCancel(appointment);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setAppointmentToCancel(null);
+  };
+
+  const handleCancelAppointment = async () => {
     try {
-      await axios.delete(`http://localhost:8080/appointments/delete/${appointmentId}`);
-      setAppointments((prev) => prev.filter(appointment => appointment.id !== appointmentId));
+      await axios.delete(`http://localhost:8080/appointments/delete/${appointmentToCancel.id}`);
+      setAppointments((prev) => prev.filter(appointment => appointment.id !== appointmentToCancel.id));
+      setSnackbarMessage('Randevu başarıyla iptal edildi.');
+      setOpenSnackbar(true);
+      handleCloseDialog();
     } catch (error) {
       console.error('Error canceling appointment:', error);
+      setSnackbarMessage('Randevu iptal edilirken bir hata oluştu.');
+      setOpenSnackbar(true);
     }
   };
 
@@ -112,7 +131,7 @@ export default function AppointmentsPage() {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button variant="contained" color="error" onClick={() => handleCancelAppointment(appointment.id)}>
+                <Button variant="contained" color="error" onClick={() => handleOpenDialog(appointment)}>
                   Randevuyu İptal Et
                 </Button>
               </CardActions>
@@ -120,6 +139,30 @@ export default function AppointmentsPage() {
           ))}
         </List>
       )}
+
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Randevuyu İptal Et</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Bu randevuyu iptal etmek istediğinizden emin misiniz?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            İptal
+          </Button>
+          <Button onClick={handleCancelAppointment} color="error">
+            Onayla
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackbar(false)}
+        message={snackbarMessage}
+      />
     </Box>
   );
 }
